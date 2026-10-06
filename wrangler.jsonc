@@ -1,0 +1,41 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "audioboom-rss-worker",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-06",
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "head_sampling_rate": 0.01
+    }
+  },
+  "vars": {
+    "MAX_RSS_BYTES": "5242880",
+    "ORIGIN_HOSTNAME": "audioboom.com",
+    "VIDEO_POLICY": "all"
+  },
+  "env": {
+    "staging": {
+      "name": "audioboom-rss-worker-staging",
+      "vars": {
+        "MAX_RSS_BYTES": "5242880",
+        "ORIGIN_HOSTNAME": "audioboom.com",
+        "VIDEO_POLICY": "all"
+      }
+    },
+    "production": {
+      "name": "audioboom-rss-worker-production",
+      "routes": [
+        {
+          "pattern": "audioboom.com/channels/*",
+          "zone_name": "audioboom.com"
+        }
+      ],
+      "vars": {
+        "MAX_RSS_BYTES": "5242880",
+        "ORIGIN_HOSTNAME": "audioboom.com",
+        "VIDEO_POLICY": "all"
+      }
+    }
+  }
+}
